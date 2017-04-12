@@ -12,13 +12,11 @@ class SteamClient(object):
     url_services = {
         "friends": "ISteamUser/GetFriendList/v0001/",
         "player": "ISteamUser/GetPlayerSummaries/v0002/",
-        "game": "ISteamNews/GetNewsForApp/v0002/",
     }
-    #:  http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json
 
-    def __init__(self, api_key):
+    def __init__(self, userid, api_key):
         super(SteamClient, self).__init__()
-       # self.userid = userid
+        self.userid = userid
         self.api_key = api_key
 
     @property
@@ -43,27 +41,12 @@ class SteamClient(object):
                 m.append(j["personaname"])
 
         return m
-    def StatsGame(self):
-        url_api="?appid="+self.api_key+"&count=1&maxlength=2000&format=json"
-        url_ = SteamClient.url + SteamClient.url_services["game"]+url_api
-        request=requests.get(url_)
-        print url_
-        l=[]
-        l2=[]
-        l3=[]
-        data=json.loads(request.text)
-        for i in data["appnews"]["newsitems"]:
-
-            l.append(i["contents"])
-            l2.append(i["title"])
-            l3.append(i["author"])
-        print l2
 
 if __name__ == "__main__":
     api = sys.argv[1]
-   # id = sys.argv[2]
-    client = SteamClient(api)
-    #print client.getFriends
-    client.StatsGame()
+    id = sys.argv[2]
+    client = SteamClient(id, api)
+    print (client.getFriends)
+
 
 
