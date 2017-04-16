@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<meta charset="UTF-8">
+<h1>Your friends</h1>
+    {% for f in friends %}
+        <br><strong>FRIEND</strong>: {{f}}</br>
+    {% endfor %}
+{% endblock %}

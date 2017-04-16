@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<html>
+    <head>
+        <title>Steam</title>
+    </head>
+
+    <body>
+        <h1>Register with Steam_App</h1>
+
+        {% if registered %}
+        <strong>Thank you for registering with this app!</strong>
+        {% else %}
+
+        <form id="user_form" method="post" action="/register/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {{ user_form.as_p }}
+
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        {% endif %}
+    </body>
+</html>
+{% endblock %}
