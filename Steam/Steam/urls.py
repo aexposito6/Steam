@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^$', login, name='login'),
     url(r'^friends/$', views.getFriends, name='friends'),
     url(r'^summaries/$', views.PlayerSummaries, name='summaries'),
+    url(r'^games/$', views.OwnGame, name='GameData'),
     url(r'^friends/profile/(?P<id_friend>.*)$', views.FriendSummaries, name='datos_amigos'),
     url(r'^register/$', views.register, name='register'),
     url(r'^accounts/profile/$', views.mainpage, name='mainpage'),

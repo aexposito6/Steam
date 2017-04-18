@@ -14,7 +14,7 @@ url = "http://api.steampowered.com/"
 url_services = {
     "friends": "ISteamUser/GetFriendList/v0001/",
     "player": "ISteamUser/GetPlayerSummaries/v0002/",
-    "game": "ISteamNews/GetNewsForApp/v0002/",
+    "game": "ISteamUserStats/GetSchemaForGame/v2/",
     "Logros_player":"ISteamUserStats/GetPlayerAchievements/v0001/",
     "Own_games":"IPlayerService/GetOwnedGames/v0001/",
 }
@@ -131,33 +131,46 @@ def AchievementsPlayer(self):
             logros.append(j["Apiname"])
             resultado.append(j["Achieved"])
         contador=contador+1
+    return render_to_response('Achievements.html', {'friends': m}, context)
 #ttp://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=XXXXXXXXXXXXXXXXX&steamid=76561197960434622&format=json
 
-def OwnGame(self):
-    url_api = "?key=" + self.api_key + "&steamids=" + self.userid + "&format=json"
+def OwnGame(request):
+    context = RequestContext(request)
+    # charname = request.GET.get('name')
+    if request.user.is_authenticated():
+        user = User.objects.get(id=request.user.id)
+        profile = UserProfile.objects.filter(user=user).get()
+        api = profile.apikey
+        id = profile.id_user
+
+
+
+    url_api = "?key=" + str(api) + "&steamid=" + str(id) + "&format=json"
     url_ = url + url_services["Own_games"] + url_api
 
     request_1 = requests.get(url_)
     data1 = json.loads(request_1.text)
     lista_juegos=[]
     for j in data1["response"]["games"]:
-        lista_juegos(j["appid"])
-
+        lista_juegos.append(j["appid"])
+    name = []
+    version = []
     for i in lista_juegos:
-        url_api = "?appid=" + i + "&count=1&maxlength=2000&format=json"
+        url_api = "?key=" + str(api) + "&appid="+str(i)
         url_ = url + url_services["game"] + url_api
         request = requests.get(url_)
 
-        print url_
-        contenido = []
-        titulo = []
-        autor = []
-        data = json.loads(request.text)
 
-        for i in data["appnews"]["newsitems"]:
-            contenido.append(i["contents"])
-            titulo.append(i["title"])
-            autor.append(i["author"])
+
+        data = json.loads(request.text)
+        if "gameName" in data ["game"].keys():
+            a=(data["game"]["gameName"])
+        if "gameVersion" in data ["game"].keys():
+            b=(data["game"]["gameVersion"])
+        c=(a,b)
+        version.append(c)
+
+    return render_to_response('GameData.html', {'version': version,'name':name}, context)
 
 @csrf_exempt
 def register(request):
@@ -191,8 +204,9 @@ def register(request):
         {'user_form': user_form, 'registered': registered},
         context)
 def mainpage(request):
+
     context = RequestContext(request)
-    return render_to_response("mainpage.html", context)
+    return render_to_response("mainpage.html",{}, context)
 
 
 
