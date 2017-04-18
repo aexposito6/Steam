@@ -21,7 +21,7 @@ url_services = {
 
 def getFriends(request):
     context = RequestContext(request)
-    charname = request.GET.get('name')
+    #charname = request.GET.get('name')
     if request.user.is_authenticated():
         user = User.objects.get(id=request.user.id)
         profile = UserProfile.objects.filter(user=user).get()
@@ -46,7 +46,7 @@ def getFriends(request):
         for j in data1["response"]["players"]:
             m.append(j["personaname"])
 
-    return render_to_response('friends.html',{'friends': m, 'name':charname},context)
+    return render_to_response('friends.html',{'friends': m},context)
 
 def StatsGame(self):
     url_api = "?appid=" + self.api_key + "&count=1&maxlength=2000&format=json"
