@@ -45,6 +45,7 @@ def getFriends(request):
         data1 = json.loads(request_1.text)
         for j in data1["response"]["players"]:
             m.append(j["personaname"])
+            m.append(i)
 
     return render_to_response('friends.html',{'friends': m},context)
 
@@ -64,23 +65,47 @@ def StatsGame(self):
         contenido.append(i["contents"])
         titulo.append(i["title"])
         autor.append(i["author"])
-
-def PlayerSummaries(self):
-    url_api = "?key=" + self.api_key + "&steamids=" + self.userid + "/"
-    url_ = url + url_services["player"] + url_api
-    apodo=[]
-    realname=[]
-    country=[]
-
-    request_1 = requests.get(url_)
-    data1 = json.loads(request_1.text)
+def FriendSummaries(request):
+    context = RequestContext(request)
+    # charname = request.GET.get('name')
+    if request.user.is_authenticated():
+        user = User.objects.get(id=request.user.id)
+        profile = UserProfile.objects.filter(user=user).get()
+        api = profile.apikey
+        id = profile.id_user
+    url_api = "?key=" + str(api) + "&steamid=" + str(id) + "/&relationship=friend"
+    url_ = url + url_services["friends"] + url_api
+    request = requests.get(url_)
+    l = []
+    data = json.loads(request.text)
     for j in data1["response"]["players"]:
         apodo.append(j["personaname"])
         realname.append(j["realname"])
         country.append(j["loccountrycode"])
+def PlayerSummaries(request):
+    context = RequestContext(request)
+    # charname = request.GET.get('name')
+    if request.user.is_authenticated():
+        user = User.objects.get(id=request.user.id)
+        profile = UserProfile.objects.filter(user=user).get()
+        api = profile.apikey
+        id = profile.id_user
+    url_api = "?key=" + str(api) + "&steamid=" + str(id) + "/&relationship=friend"
+    url_ = url + url_services["friends"] + url_api
+    request = requests.get(url_)
+    l = []
+    data = json.loads(request.text)
+    apodo = []
+    realname = []
+    country = []
+    imagen = []
+    for j in data["response"]["players"]:
+        apodo.append(j["personaname"])
+        realname.append(j["realname"])
+        country.append(j["loccountrycode"])
+        imagen.append(j["avatarmedium"])
 
-
-
+    return render_to_response('UserData.html', {'apodo': apodo, 'realname': realname, 'country': country, 'imagen': imagen}, context)
 def AchievementsPlayer(self):
     url_api = "?appid="+self.game+"&key=" + self.api_key + "&steamid=" + self.userid
     url_ = url + url_services["Logros_player"] + url_api

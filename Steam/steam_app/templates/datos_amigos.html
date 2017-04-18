@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<meta charset="UTF-8">
+<h1>Profile of your friend</h1>
+    {% for a in datos %}
+        <br><strong>NAME</strong>: {{a}}</br>
+        <br><strong>COUNTRY</strong>: {{a}}</br>
+        <br><strong>URL</strong>: {{a}}</br>
+        <br><strong>STATE</strong>: {{a}}</br>
+    {% endfor %}
+{% endblock %}
