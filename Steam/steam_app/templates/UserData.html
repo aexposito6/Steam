@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <meta charset="UTF-8">
-<h1>Your friends</h1>
+<h1>DATOS PERSONALES</h1>
         <br><strong>APODO</strong>: {{apodo}}</br>
         <br><strong>NOMBRE REAL</strong>: {{realname}}</br>
         <br><strong>COUNTRY</strong>: {{country}}</br>
-        <br><strong>IMAGEN</strong>: {{imagen}}</br>
-    {% endfor %}
+        <br><strong>URL</strong>: {{profile}}</br>
+        <br><strong>IMAGEN</strong>:<img src={{imagen}}></br>
 {% endblock %}

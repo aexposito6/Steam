@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <meta charset="UTF-8">
-<h1>Profile of your friend</h1>
-    {% for a in datos %}
-        <br><strong>NAME</strong>: {{a}}</br>
-        <br><strong>COUNTRY</strong>: {{a}}</br>
-        <br><strong>URL</strong>: {{a}}</br>
-        <br><strong>STATE</strong>: {{a}}</br>
-    {% endfor %}
+<h1>DATOS PERSONALES DEL AMIGO {{apodo}}</h1>
+        <br><strong>APODO</strong>: {{apodo}}</br>
+        <br><strong>NOMBRE REAL</strong>: {{realname}}</br>
+        <br><strong>COUNTRY</strong>: {{country}}</br>
+        <br><strong>URL</strong>: <a href="http://steamcommunity.com/profiles/{{id}}/"> {{profile}}</a></br>
+        <br><strong>IMAGEN</strong>:<img src={{imagen}}></br>
 {% endblock %}
