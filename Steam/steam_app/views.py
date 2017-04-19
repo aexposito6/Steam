@@ -14,10 +14,12 @@ url = "http://api.steampowered.com/"
 url_services = {
     "friends": "ISteamUser/GetFriendList/v0001/",
     "player": "ISteamUser/GetPlayerSummaries/v0002/",
-    "game": "ISteamUserStats/GetSchemaForGame/v2/",
+    "game": "ISteamUserStats/GetPlayerAchievements/v0001/",
     "Logros_player":"ISteamUserStats/GetPlayerAchievements/v0001/",
     "Own_games":"IPlayerService/GetOwnedGames/v0001/",
+    "version":"ISteamUserStats/GetSchemaForGame/v2/",
 }
+
 
 def getFriends(request):
     context = RequestContext(request)
@@ -154,23 +156,27 @@ def OwnGame(request):
     for j in data1["response"]["games"]:
         lista_juegos.append(j["appid"])
     name = []
-    version = []
+    version=[]
     for i in lista_juegos:
-        url_api = "?key=" + str(api) + "&appid="+str(i)
+        url_api = "?appid="+str(i)+"&key=" + str(api) + "&steamid="+str(id)
         url_ = url + url_services["game"] + url_api
         request = requests.get(url_)
 
 
 
         data = json.loads(request.text)
-        if "gameName" in data ["game"].keys():
-            a=(data["game"]["gameName"])
-        if "gameVersion" in data ["game"].keys():
-            b=(data["game"]["gameVersion"])
-        c=(a,b)
-        version.append(c)
+        if "gameName" in data ["playerstats"].keys():
+            name.append(data["playerstats"]["gameName"])
 
-    return render_to_response('GameData.html', {'version': version,'name':name}, context)
+        url_api2 = "?key=" + str(api)  + "&appid=" + str(i)
+        url_2 = url + url_services["version"] + url_api2
+        request2 = requests.get(url_2)
+        data2 = json.loads(request2.text)
+        if "gameVersion" in data2 ["game"].keys():
+
+            version.append(data2["game"]["gameVersion"])
+        v=len(version)
+    return render_to_response('GameData.html', {'version':version,'name':name,'long':v}, context)
 
 @csrf_exempt
 def register(request):
