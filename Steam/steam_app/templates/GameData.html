@@ -2,9 +2,29 @@
 {% block content %}
 <meta charset="UTF-8">
 <h1>GAMES</h1>
-    {% for i in version %}
-        <br><strong>NAME</strong>: {{i.0}}</br>
-        <br><strong>VERSION</strong>: {{i.1}}</br>
-    {% endfor %}
+    <table>
+        <tr>
+            <td>
+            {% for i in name %}
+                <br><strong>NAME</strong>: {{i}}</br>
+             {% endfor %}
+            </td>
+            <td>
+            {% for i in version %}
+                <br><strong>Version</strong>: {{i}}</br>
+             {% endfor %}
+            </td>
+        </tr>
+
+
+
+
+
+
+    </table>
+
+
+
+
 
 {% endblock %}
