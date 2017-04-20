@@ -1,5 +1,6 @@
 # Create your views here.
 
+'''
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 
@@ -7,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import requests
 import json
-from forms import UserForm
+#from forms import UserForm
 from models import UserProfile
 
 url = "http://api.steampowered.com/"
@@ -208,6 +209,6 @@ def mainpage(request):
     context = RequestContext(request)
     return render_to_response("mainpage.html",{}, context)
 
-
+'''
 
 
