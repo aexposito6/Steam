@@ -1,6 +1,6 @@
 # Create your views here.
 
-'''
+
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 
@@ -9,8 +9,9 @@ from django.contrib.auth.models import User
 import requests
 import json
 #from forms import UserForm
+from forms import UserForm
 from models import UserProfile
-
+'''
 url = "http://api.steampowered.com/"
 url_services = {
     "friends": "ISteamUser/GetFriendList/v0001/",
@@ -178,7 +179,7 @@ def OwnGame(request):
             version.append(data2["game"]["gameVersion"])
         v=len(version)
     return render_to_response('GameData.html', {'version':version,'name':name,'long':v}, context)
-
+'''
 @csrf_exempt
 def register(request):
 
@@ -215,6 +216,13 @@ def mainpage(request):
     context = RequestContext(request)
     return render_to_response("mainpage.html",{}, context)
 
-'''
+def after_login(request):
+    context = RequestContext(request)
+    return render_to_response("after_login.html", {}, context)
+def after_logout(request):
+    context = RequestContext(request)
+    return render_to_response("logout.html", {}, context)
+
+
 
 
