@@ -49,10 +49,6 @@ def mainpage(request):
     context = RequestContext(request)
     return render_to_response("mainpage.html",{}, context)
 
-def after_login(request):
-    context = RequestContext(request)
-    return render_to_response("after_login.html", {}, context)
-
 def after_logout(request):
     context = RequestContext(request)
     return render_to_response("logout.html", {}, context)
@@ -65,7 +61,7 @@ def games(request):
         if GameForm.is_valid():
             opinio = Game(appid=GameForm.cleaned_data['appid'],name=GameForm.cleaned_data['name'],
                              version=GameForm.cleaned_data['version'], company=GameForm.cleaned_data['company'],
-                             news=GameForm.cleaned_data['news'])
+                             opinion=GameForm.cleaned_data['opinion'])
             opinio.save()
             return HttpResponseRedirect('/game/sent')
         else:
@@ -74,6 +70,13 @@ def games(request):
         GameForm=forms.GameForm()
 
     return render(request,"game.html", {'GameForm':GameForm})
+def print_games(request):
+    l = []
+    context = RequestContext(request)
+    for i in Game.objects.all():
+        l.append(i)
+
+    return render(request, "list_game.html", {'list': l})
 
 def after_game(request):
     context = RequestContext(request)

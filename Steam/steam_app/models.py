@@ -24,7 +24,7 @@ class Game (models.Model):
     name = models.CharField(max_length=50, blank=True, null=True)
     version= models.FloatField(blank=True, null=True)
     company=models.CharField(max_length=50, blank=True, null=True)
-    news = models.TextField(null=True, blank=True)
+    opinion = models.TextField(null=True, blank=True)
     def __unicode__(self):
         return str( "Juego: " + str(self.name))
 

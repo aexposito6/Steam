@@ -20,10 +20,12 @@ from steam_app import views
 from django.conf.urls import url
 
 urlpatterns = [
-    url(r'^$', login, name='login'),
+    url(r'^$', views.mainpage, name='mainpage'),
     url(r'^register/$', views.register, name='register'),
-    url(r'^accounts/profile/$', views.after_login, name='mainpage'),
+    url(r'^accounts/login/$', login, name='login'),
+    url(r'^accounts/profile/$', views.mainpage, name='mainpage'),
     url(r'^game/$', views.games, name='game'),
+    url(r'^list/games/$', views.print_games, name='game'),
     url(r'^game/sent/$', views.after_game, name='game'),
     url(r'^logout/$', logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^admin/', admin.site.urls),
