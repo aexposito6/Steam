@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 import json
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User)
     steam_id = models.IntegerField(blank=True, null = True, unique=True)
     name = models.CharField(max_length=50, blank=True, null=True)
     real_name=models.CharField(max_length=50, blank=True, null=True)
@@ -19,18 +19,18 @@ class UserProfile(models.Model):
         return str(self.user.username)
 
 class Game (models.Model):
-    user = models.ForeignKey(UserProfile)
+    #user = models.ForeignKey(UserProfile)
     appid = models.IntegerField(blank=True,  null = True)
     name = models.CharField(max_length=50, blank=True, null=True)
     version= models.FloatField(blank=True, null=True)
     company=models.CharField(max_length=50, blank=True, null=True)
     news = models.TextField(null=True, blank=True)
     def __unicode__(self):
-        return str("Usuario: " + str(self.user) + "," + "Juego: " + str(self.name))
+        return str( "Juego: " + str(self.name))
 
 
 class Achievement(models.Model):
-    user = models.ForeignKey(UserProfile)
+    #user = models.ForeignKey(UserProfile)
     appid_game = models.ForeignKey(Game, blank=True, null=True)
     name = models.CharField(max_length=50, blank=True, null=True)
     achieved = models.BooleanField(default=False)
@@ -39,7 +39,7 @@ class Achievement(models.Model):
 
 
 class Clan(models.Model):
-    user = models.ForeignKey(UserProfile)
+    #user = models.ForeignKey(UserProfile)
     id_clan=models.IntegerField(blank=True, null=True)
     name = models.CharField(max_length=50, blank=True, null=True)
     number_of_person=models.IntegerField(blank=True, null=True)
