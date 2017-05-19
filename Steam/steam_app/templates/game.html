@@ -1,0 +1,19 @@
+{%  extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+    <h1><strong>Create a game!</strong></h1>
+</div>
+    <form method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+        {{ GameForm.as_table }}
+        </table>
+        <input type="submit" name="submit" value="Enviar"/>
+
+
+    </form>
+
+
+{% endblock %}
