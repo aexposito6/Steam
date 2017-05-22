@@ -1,13 +1,11 @@
 # Create your views here.
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.models import User
-import requests
-import json
-#from forms import UserForm
 import forms
 from forms import UserForm, GameForm
 from models import UserProfile, Game
@@ -53,16 +51,15 @@ def after_logout(request):
     context = RequestContext(request)
     return render_to_response("logout.html", {}, context)
 @csrf_exempt
-
+@login_required()
 def games(request):
-    context = RequestContext(request)
     if request.method=="POST":
         GameForm=forms.GameForm(data=request.POST)
         if GameForm.is_valid():
-            opinio = Game(appid=GameForm.cleaned_data['appid'],name=GameForm.cleaned_data['name'],
+            game = Game(user=request.user, appid=GameForm.cleaned_data['appid'],name=GameForm.cleaned_data['name'],
                              version=GameForm.cleaned_data['version'], company=GameForm.cleaned_data['company'],
                              opinion=GameForm.cleaned_data['opinion'])
-            opinio.save()
+            game.save()
             return HttpResponseRedirect('/game/sent')
         else:
             print(GameForm.errors)
@@ -72,11 +69,36 @@ def games(request):
     return render(request,"game.html", {'GameForm':GameForm})
 def print_games(request):
     l = []
-    context = RequestContext(request)
+    u = User.objects.get(username__exact=request.user)
     for i in Game.objects.all():
-        l.append(i)
-
+        if i.user == u:
+            l.append(i)
     return render(request, "list_game.html", {'list': l})
+@csrf_exempt
+@login_required
+def change_game(request, id_game):
+    context = RequestContext(request)
+    if request.method == "POST":
+        GameForm = forms.GameForm(data=request.POST)
+        game = Game.objects.get(pk=id_game)
+        if GameForm.is_valid():
+            game_form = forms.GameForm(request.POST, instance=game)
+            game_form.save()
+            return HttpResponseRedirect('/change/game/done')
+        else:
+            game = Game.objects.get(pk=id_game)
+            GameForm = forms.GameForm(instance=game)
+    else:
+        GameForm = forms.GameForm()
+
+    return render(request, "edit_game.html", {'GameForm': GameForm})
+def delete_game(request, id_game):
+    game = Game.objects.get(pk=id_game)
+    game.delete()
+    return render(request, "delete_game.html", {})
+def after_change_game(request):
+    context = RequestContext(request)
+    return render_to_response("update_game.html", {}, context)
 
 def after_game(request):
     context = RequestContext(request)

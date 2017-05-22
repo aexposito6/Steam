@@ -11,6 +11,7 @@ class UserForm(forms.ModelForm):
 class GameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ('appid', 'name','version', 'company', 'opinion')
+        fields = ('user', 'id','appid', 'name','version', 'company', 'opinion')
+        exclude = ('user', 'id', )
 
 

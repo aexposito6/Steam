@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
-import json
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -19,14 +19,16 @@ class UserProfile(models.Model):
         return str(self.user.username)
 
 class Game (models.Model):
-    #user = models.ForeignKey(UserProfile)
+    user = models.ForeignKey(User)
     appid = models.IntegerField(blank=True,  null = True)
     name = models.CharField(max_length=50, blank=True, null=True)
     version= models.FloatField(blank=True, null=True)
     company=models.CharField(max_length=50, blank=True, null=True)
     opinion = models.TextField(null=True, blank=True)
+    def get_absolute_url(self):
+        return reverse('change_name', kwargs={'id_game': self.id})
     def __unicode__(self):
-        return str( "Juego: " + str(self.name))
+        return str( "Juego: " + str(self.name) + "," + str(self.id))
 
 
 class Achievement(models.Model):

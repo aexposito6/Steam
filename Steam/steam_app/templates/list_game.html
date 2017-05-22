@@ -1,21 +1,20 @@
 {%extends "base.html" %}
 {% block content %}
-<div class="text-center">
+<div P ALIGN="center">
     <h1>List of games</h1>
 </div>
 
      <style>
     .opinions_table{
-        margin-left:300px;
+        margin-left:100px;
         margin-right:150px;
-        margin-top: 100px;
+        margin-top: 50px;
     }
     </style>
-
     <div class="opinions_table">
-    <table border="2px">
+    <table border="5px">
             <tr>
-                <th >ID APP </th>
+                <th >ID_GAME </th>
                 <th >NAME </th>
                 <th >VERSION </th>
                 <th >COMPANY </th>
@@ -24,10 +23,12 @@
     {% for i in list %}
             <tr>
                 <td>{{ i.appid }}</td>
-                <td>{{ i.name }}</td>
-                <td>{{ i.version }}</td>
-                <td>{{ i.company }}</td>
-                <td width="60%">{{ i.opinion }}</td>
+                <td width="10%">{{ i.name }}</td>
+                <td width="15%">{{ i.version }}</td>
+                <td width="15%">{{ i.company }}</td>
+                <td width="70%">{{ i.opinion }}</td>
+                <td><br><a href="{% url 'change_game' id_game=i.id %}">Edit your game!</a> <br/></td>
+                <td><br><a href="{% url 'delete_game' id_game=i.id %}">Delete your game!</a> <br/></td>
             </tr>
     {% endfor %}
 

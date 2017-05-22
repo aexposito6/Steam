@@ -17,17 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from steam_app import views
-from django.conf.urls import url
+from django.conf.urls import url, include
 
-urlpatterns = [
+urlpatterns = (
     url(r'^$', views.mainpage, name='mainpage'),
     url(r'^register/$', views.register, name='register'),
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/profile/$', views.mainpage, name='mainpage'),
     url(r'^game/$', views.games, name='game'),
-    url(r'^list/games/$', views.print_games, name='game'),
-    url(r'^game/sent/$', views.after_game, name='game'),
+    url(r'^change/game/(?P<id_game>\d)/$', views.change_game,  name='change_game'),
+    url(r'^change/game/(?P<id_game>\d)/delete/$', views.delete_game,  name='delete_game'),
+    url(r'^list/games/$', views.print_games, name='print_game'),
+    url(r'^change/game/done/$', views.after_change_game, name='after_change_game'),
+    url(r'^game/sent/$', views.after_game, name='game_sent'),
     url(r'^logout/$', logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^admin/', admin.site.urls),
 
-]
+)

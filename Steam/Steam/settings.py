@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+APPEND_SLASH = True
 
 AUTH_PROFILE_MODULE = 'steam_app.UserProfile'
 
