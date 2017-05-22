@@ -2,7 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from django.views.decorators.csrf import csrf_exempt
@@ -77,19 +77,17 @@ def print_games(request):
 @csrf_exempt
 @login_required
 def change_game(request, id_game):
-    context = RequestContext(request)
+    game = get_object_or_404(Game, pk=id_game)
     if request.method == "POST":
-        GameForm = forms.GameForm(data=request.POST)
-        game = Game.objects.get(pk=id_game)
-        if GameForm.is_valid():
-            game_form = forms.GameForm(request.POST, instance=game)
+        game_form = forms.GameForm(request.POST, instance=game)
+        if game_form.is_valid():
             game_form.save()
             return HttpResponseRedirect('/change/game/done')
         else:
             game = Game.objects.get(pk=id_game)
             GameForm = forms.GameForm(instance=game)
     else:
-        GameForm = forms.GameForm()
+        GameForm = forms.GameForm(instance=game)
 
     return render(request, "edit_game.html", {'GameForm': GameForm})
 def delete_game(request, id_game):
