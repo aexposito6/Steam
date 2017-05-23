@@ -24,9 +24,9 @@ class Game (models.Model):
     user = models.ForeignKey(User)
     appid = models.IntegerField(default=False)
     name = models.CharField(max_length=50, default='')
-    version= models.FloatField(default='')
-    company=models.CharField(max_length=50, default='')
-    opinion = models.TextField(default='')
+    version= models.FloatField(blank=True, null=True)
+    company=models.CharField(max_length=50, blank=True, null=True)
+    opinion = models.TextField(blank=True, null=True)
     def get_absolute_url(self):
         return reverse('change_name', kwargs={'id_game': self.id})
     def __unicode__(self):
