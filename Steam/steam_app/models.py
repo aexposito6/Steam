@@ -41,10 +41,11 @@ class Achievement(models.Model):
 
 
 class Clan(models.Model):
-    #user = models.ForeignKey(UserProfile)
-    id_clan=models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey(User)
     name = models.CharField(max_length=50, blank=True, null=True)
     number_of_person=models.IntegerField(blank=True, null=True)
     members = models.TextField(null=True, blank=True) #Para poder poner miembros que no esten regitrados a nuestra app
+    def get_absolute_url(self):
+        return reverse('change_clan', kwargs={'id_clan': self.id})
     def __unicode__(self):
-        return str(self.name)
+        return str("Clan:" + self.name + "," + str(self.id))

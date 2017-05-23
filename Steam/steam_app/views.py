@@ -1,14 +1,13 @@
 # Create your views here.
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template import RequestContext
-
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 import forms
-from forms import UserForm, GameForm
-from models import UserProfile, Game
+from forms import UserForm, GameForm, ClanForm
+from models import UserProfile, Game, Clan
 
 
 @csrf_exempt
@@ -102,6 +101,57 @@ def after_game(request):
     context = RequestContext(request)
     return render_to_response("game_created.html", {}, context)
 
+@login_required()
+def clan(request):
+    if request.method=="POST":
+        ClanForm=forms.ClanForm(data=request.POST)
+        if ClanForm.is_valid():
+            clan = Clan(user=request.user,name=ClanForm.cleaned_data['name'],
+                             number_of_person=ClanForm.cleaned_data['number_of_person'],
+                            members=ClanForm.cleaned_data['members']
+                             )
+            clan.save()
+            return HttpResponseRedirect('/clan/sent')
+        else:
+            print(ClanForm.errors)
+    else:
+        ClanForm=forms.ClanForm()
+
+    return render(request,"clan.html", {'ClanForm':ClanForm})
+@login_required()
+def after_clan(request):
+    context = RequestContext(request)
+    return render_to_response("clan_created.html", {}, context)
+def print_clan(request):
+    l = []
+    u = User.objects.get(username__exact=request.user)
+    for i in Clan.objects.all():
+        if i.user == u:
+            l.append(i)
+    return render(request, "list_clan.html", {'list': l})
+@csrf_exempt
+@login_required
+def change_clan(request, id_clan):
+    clan = get_object_or_404(Clan, pk=id_clan)
+    if request.method == "POST":
+        clan_form = forms.ClanForm(request.POST, instance=clan)
+        if clan_form.is_valid():
+            clan_form.save()
+            return HttpResponseRedirect('/change/clan/done')
+        else:
+            clan = Clan.objects.get(pk=id_clan)
+            ClanForm = forms.ClanForm(instance=clan)
+    else:
+        ClanForm = forms.ClanForm(instance=clan)
+
+    return render(request, "edit_clan.html", {'ClanForm': ClanForm})
+def delete_clan(request, id_clan):
+    clan = Clan.objects.get(pk=id_clan)
+    clan.delete()
+    return render(request, "delete_clan.html", {})
+def after_change_clan(request):
+    context = RequestContext(request)
+    return render_to_response("update_clan.html", {}, context)
 
 
 

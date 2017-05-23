@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <div id="content">
-    <br><a href="/summaries">User Profile</a> <br/>
+    <br><a href="/User">User Profile</a> <br/>
     <br><a href="/list/games">List of games</a> <br/>
     <br><a href="/game">Games</a> <br/>
     <br><a href="/Achievements">Achievements</a> <br/>
+    <br><a href="/clan">Clans</a> <br/>
+    <br><a href="/list/clans">List of clans</a> <br/>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 </div>
 {% endblock %}

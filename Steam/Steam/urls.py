@@ -30,6 +30,14 @@ urlpatterns = (
     url(r'^list/games/$', views.print_games, name='print_game'),
     url(r'^change/game/done/$', views.after_change_game, name='after_change_game'),
     url(r'^game/sent/$', views.after_game, name='game_sent'),
+    url(r'^clan/$', views.clan, name='clan'),
+    url(r'^clan/sent/$', views.after_clan, name='clan_sent'),
+    url(r'^list/clans/$', views.print_clan, name='print_clan'),
+    url(r'^change/clan/(?P<id_clan>\d)/$', views.change_clan,  name='change_clan'),
+    url(r'^change/clan/(?P<id_clan>\d)/delete/$', views.delete_clan,  name='delete_clan'),
+    url(r'^change/clan/done/$', views.after_change_clan, name='after_change_clan'),
+
+
     url(r'^logout/$', logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^admin/', admin.site.urls),
 
