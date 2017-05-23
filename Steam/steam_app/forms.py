@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from models import Game, Clan, Achievement
+from models import Game, Clan, Achievement, UserProfile
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
@@ -19,7 +19,11 @@ class ClanForm (forms.ModelForm):
         model = Clan
         fields = ('user', 'id', 'name','number_of_person','members')
         exclude = ('user', 'id')
-
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields=('user','id','steam_id','nickname','real_name','city','stateOrProvince','country','url_profile','friends')
+        exclude = ('user','id')
 class AchievementForm (forms.ModelForm):
     class Meta:
         model = Achievement

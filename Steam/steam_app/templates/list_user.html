@@ -1,0 +1,44 @@
+{%extends "base.html" %}
+{% block content %}
+<div P ALIGN="center">
+    <h1>List of games</h1>
+</div>
+
+     <style>
+    .opinions_table{
+        margin-left:100px;
+        margin-right:150px;
+        margin-top: 50px;
+    }
+    </style>
+    <div class="opinions_table">
+    <table border="5px">
+            <tr>
+                <th >STEAM_ID </th>
+                <th >NICKNAME </th>
+                <th >REAL NAME </th>
+                <th >CITY </th>
+                <th >COMMUNITY </th>
+                <th >COUNTRY </th>
+                <th >URL PROFILE </th>
+                <th >FRIENDS </th>
+            </tr>
+    {% for i in list %}
+            <tr>
+
+                <td width="10%">{{ i.steam_id }}</td>
+                <td width="15%">{{ i.nickname }}</td>
+                <td width="15%">{{ i.real_name }}</td>
+                <td width="15%">{{ i.city }}</td>
+                <td width="15%">{{ i.stateOrProvince }}</td>
+                <td width="15%">{{ i.country }}</td>
+                 <td width="50%">{{ i.url_profile }}</td>
+                 <td width="60%">{{ i.friends }}</td>
+                <td><br><a href="{% url 'change_user' id_user=i.id %}">Edit your User profile!</a> <br/></td>
+                <td><br><a href="{% url 'delete_user' id_user=i.id %}">Delete your user Profile!</a> <br/></td>
+            </tr>
+    {% endfor %}
+
+        </table>
+    </div>
+{% endblock %}

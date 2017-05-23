@@ -219,5 +219,53 @@ def delete_achievement(request, id_achievement):
 def after_change_achievement(request):
     context = RequestContext(request)
     return render_to_response("update_achievement.html", {}, context)
+def user(request):
+    if request.method=="POST":
+        UserForm=forms.UserProfileForm(data=request.POST)
+        if UserForm.is_valid():
+            user = UserProfile(user=request.user, steam_id=UserForm.cleaned_data['steam_id'],nickname=UserForm.cleaned_data['nickname'],
+                             real_name=UserForm.cleaned_data['real_name'],city=UserForm.cleaned_data['city'],stateOrProvince=UserForm.cleaned_data['stateOrProvince'], country=UserForm.cleaned_data['country'],
+                         friends=UserForm.cleaned_data['friends'])
+            user.save()
+            return HttpResponseRedirect('/user/sent')
+        else:
+            print(UserForm.errors)
+    else:
+        UserForm=forms.UserProfileForm()
+
+    return render(request,"user.html", {'UserForm':UserForm})
+
+def after_user(request):
+    context = RequestContext(request)
+    return render_to_response("user_created.html", {}, context)
+
+def print_users(request):
+    l = []
+    u = User.objects.get(username__exact=request.user)
+    for i in UserProfile.objects.all():
+        if i.user == u:
+            l.append(i)
+    return render(request, "list_user.html", {'list': l})
+def change_user(request, id_user):
+    user = get_object_or_404(UserProfile, pk=id_user)
+    if request.method == "POST":
+        user_form = forms.UserProfileForm(request.POST, instance=user)
+        if user_form.is_valid():
+            user_form.save()
+            return HttpResponseRedirect('/change/user/done')
+        else:
+            user = UserProfile.objects.get(pk=id_user)
+            UserProfileForm = forms.GameForm(instance=user)
+    else:
+        UserProfileForm = forms.UserProfileForm(instance=user)
+    return render(request, "edit_user.html", {'UserProfileForm': UserProfileForm})
+def after_change_user(request):
+    context = RequestContext(request)
+    return render_to_response("update_user.html", {}, context)
+
+def delete_user(request, id_user):
+    user = UserProfile.objects.get(pk=id_user)
+    user.delete()
+    return render(request, "delete_user.html", {})
 
 
