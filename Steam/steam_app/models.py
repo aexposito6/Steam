@@ -6,13 +6,14 @@ from django.urls import reverse
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     steam_id = models.IntegerField(blank=True, null = True, unique=True)
-    name = models.CharField(max_length=50, blank=True, null=True)
+    nickname = models.CharField(max_length=50, blank=True, null=True , unique=True)
     real_name=models.CharField(max_length=50, blank=True, null=True)
     country=models.CharField(max_length=50, blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True, null=True)
     url_profile=models.CharField(max_length=50, blank=True, null=True)
-    avatar=models.CharField(max_length=50, blank=True, null=True)
+    #avatar=models.CharField(max_length=50, blank=True, null=True)
     friends=models.TextField(null=True, blank=True) #Para poder poner amigos que no esten registrados a nuestra app
 
     def __unicode__(self):

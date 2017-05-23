@@ -1,0 +1,25 @@
+{%extends "base.html" %}
+{% csrf_token %}
+{% block content %}
+
+
+    <style>
+    .message1{
+        margin-top: 120px;
+    }
+    </style>
+    <style>
+    .message2{
+        margin-top: 30px;
+    }
+    </style>
+
+    <div class="message1 text-center">
+        <h1><strong> The changes have been applied! </strong></h1>
+</div>
+<div class="message2 text-center">
+    <h2>Check out the new details in your Profile</h2>
+        <a href="/">Return to Homepage</a>
+</div>
+
+{% endblock %}

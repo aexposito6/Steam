@@ -1,0 +1,19 @@
+{%  extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+    <h1><strong>Create new User</strong></h1>
+</div>
+    <form method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+        {{ UserForm.as_table }}
+        </table>
+        <input type="submit" name="submit" value="Enviar"/>
+
+
+    </form>
+
+
+{% endblock %}
