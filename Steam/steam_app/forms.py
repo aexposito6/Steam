@@ -16,7 +16,7 @@ class GameForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model =UserProfile
-        fields=('user','id','steam_id','nickname','real_name','country','city','url_profile','friends')
+        fields=('user','id','steam_id','nickname','real_name','city','stateOrProvince','country','url_profile','friends')
         exclude = ('user','id')
 
 

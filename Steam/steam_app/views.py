@@ -108,8 +108,8 @@ def user(request):
         UserForm=forms.UserProfileForm(data=request.POST)
         if UserForm.is_valid():
             user = UserProfile(user=request.user, steam_id=UserForm.cleaned_data['steam_id'],nickname=UserForm.cleaned_data['nickname'],
-                             real_name=UserForm.cleaned_data['real_name'], country=UserForm.cleaned_data['country'],
-                         city=UserForm.cleaned_data['city'],friends=UserForm.cleaned_data['friends'])
+                             real_name=UserForm.cleaned_data['real_name'],city=UserForm.cleaned_data['city'],stateOrProvince=UserForm.cleaned_data['stateOrProvince'], country=UserForm.cleaned_data['country'],
+                         friends=UserForm.cleaned_data['friends'])
             user.save()
             return HttpResponseRedirect('/user/sent')
         else:
