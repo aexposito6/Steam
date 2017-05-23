@@ -24,12 +24,14 @@ urlpatterns = (
     url(r'^register/$', views.register, name='register'),
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/profile/$', views.mainpage, name='mainpage'),
+
     url(r'^game/$', views.games, name='game'),
     url(r'^change/game/(?P<id_game>\d)/$', views.change_game,  name='change_game'),
     url(r'^change/game/(?P<id_game>\d)/delete/$', views.delete_game,  name='delete_game'),
     url(r'^list/games/$', views.print_games, name='print_game'),
     url(r'^change/game/done/$', views.after_change_game, name='after_change_game'),
     url(r'^game/sent/$', views.after_game, name='game_sent'),
+
     url(r'^clan/$', views.clan, name='clan'),
     url(r'^clan/sent/$', views.after_clan, name='clan_sent'),
     url(r'^list/clans/$', views.print_clan, name='print_clan'),
@@ -37,6 +39,12 @@ urlpatterns = (
     url(r'^change/clan/(?P<id_clan>\d)/delete/$', views.delete_clan,  name='delete_clan'),
     url(r'^change/clan/done/$', views.after_change_clan, name='after_change_clan'),
 
+    url(r'^achievement/$', views.achievement, name='achievement'),
+    url(r'^achievement/sent/$', views.after_achievement, name='achievement_sent'),
+    url(r'^list/achievement/$', views.print_achievement, name='print_achievement'),
+    url(r'^change/achievement/(?P<id_achievement>\d)/$', views.change_achievement, name='change_achievement'),
+    url(r'^change/achievement/(?P<id_achievement>\d)/delete/$', views.delete_achievement, name='delete_achievement'),
+    url(r'^change/achievement/done/$', views.after_change_achievement, name='after_change_achievement'),
 
     url(r'^logout/$', logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^admin/', admin.site.urls),

@@ -6,8 +6,8 @@ from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 import forms
-from forms import UserForm, GameForm, ClanForm
-from models import UserProfile, Game, Clan
+from forms import UserForm, GameForm, ClanForm, AchievementForm
+from models import UserProfile, Game, Clan, Achievement
 
 
 @csrf_exempt
@@ -101,7 +101,8 @@ def after_game(request):
     context = RequestContext(request)
     return render_to_response("game_created.html", {}, context)
 
-@login_required()
+@csrf_exempt
+@login_required
 def clan(request):
     if request.method=="POST":
         ClanForm=forms.ClanForm(data=request.POST)
@@ -118,10 +119,12 @@ def clan(request):
         ClanForm=forms.ClanForm()
 
     return render(request,"clan.html", {'ClanForm':ClanForm})
-@login_required()
+@csrf_exempt
+@login_required
 def after_clan(request):
     context = RequestContext(request)
     return render_to_response("clan_created.html", {}, context)
+
 def print_clan(request):
     l = []
     u = User.objects.get(username__exact=request.user)
@@ -145,13 +148,76 @@ def change_clan(request, id_clan):
         ClanForm = forms.ClanForm(instance=clan)
 
     return render(request, "edit_clan.html", {'ClanForm': ClanForm})
+@csrf_exempt
+@login_required
 def delete_clan(request, id_clan):
     clan = Clan.objects.get(pk=id_clan)
     clan.delete()
     return render(request, "delete_clan.html", {})
+@csrf_exempt
+@login_required
 def after_change_clan(request):
     context = RequestContext(request)
     return render_to_response("update_clan.html", {}, context)
 
+
+@csrf_exempt
+@login_required
+def achievement(request):
+    if request.method=="POST":
+        achievement=forms.AchievementForm(data=request.POST)
+        if achievement.is_valid():
+            achievement = Achievement(user=request.user,name= achievement.cleaned_data['name'],
+                             appid_game=achievement.cleaned_data['appid_game'],
+                            achieved=achievement.cleaned_data['achieved']
+                             )
+            achievement.save()
+            return HttpResponseRedirect('/achievement/sent')
+        else:
+            print(achievement.errors)
+    else:
+        achievement=forms.AchievementForm()
+
+    return render(request,"Achievements.html", {'AchievementForm':AchievementForm})
+@csrf_exempt
+@login_required
+def after_achievement(request):
+    context = RequestContext(request)
+    return render_to_response("achievement_created.html", {}, context)
+
+def print_achievement(request):
+    l = []
+    u = User.objects.get(username__exact=request.user)
+    for i in Achievement.objects.all():
+        if i.user == u:
+            l.append(i)
+    return render(request, "list_achievement.html", {'list': l})
+@csrf_exempt
+@login_required
+def change_achievement(request, id_achievement):
+    achievement = get_object_or_404(Achievement, pk=id_achievement)
+    if request.method == "POST":
+        achievement_form = forms.AchievementForm(request.POST, instance=achievement)
+        if achievement_form.is_valid():
+            achievement_form.save()
+            return HttpResponseRedirect('/change/achievement/done')
+        else:
+            achievement = Achievement.objects.get(pk=id_achievement)
+            AchievementForm = forms.AchievementForm(instance=achievement)
+    else:
+        AchievementForm = forms.AchievementForm(instance=achievement)
+
+    return render(request, "edit_achievement.html", {'AchievementForm': AchievementForm})
+@csrf_exempt
+@login_required
+def delete_achievement(request, id_achievement):
+    achievement = Achievement.objects.get(pk=id_achievement)
+    achievement.delete()
+    return render(request, "delete_achievement.html", {})
+@csrf_exempt
+@login_required
+def after_change_achievement(request):
+    context = RequestContext(request)
+    return render_to_response("update_achievement.html", {}, context)
 
 

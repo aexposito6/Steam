@@ -33,16 +33,19 @@ class Game (models.Model):
 
 class Achievement(models.Model):
     #user = models.ForeignKey(UserProfile)
-    appid_game = models.ForeignKey(Game, blank=True, null=True)
-    name = models.CharField(max_length=50, blank=True, null=True)
+    user = models.ForeignKey(User)
+    appid_game = models.ForeignKey(Game, default=False)
+    name = models.CharField(max_length=50, default='')
     achieved = models.BooleanField(default=False)
+    def get_absolute_url(self):
+        return reverse('change_achievement', kwargs={'id_achievement': self.id})
     def __unicode__(self):
         return str("Usuario: " + str(self.user) + "," + "Achievement: "+ str(self.name))
 
 
 class Clan(models.Model):
     user = models.ForeignKey(User)
-    name = models.CharField(max_length=50, blank=True, null=True)
+    name = models.CharField(max_length=50, default='')
     number_of_person=models.IntegerField(blank=True, null=True)
     members = models.TextField(null=True, blank=True) #Para poder poner miembros que no esten regitrados a nuestra app
     def get_absolute_url(self):
