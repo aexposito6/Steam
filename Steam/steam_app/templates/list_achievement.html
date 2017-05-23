@@ -1,0 +1,36 @@
+{%extends "base.html" %}
+{% block content %}
+<div P ALIGN="center">
+    <h1>List of achievements</h1>
+</div>
+
+     <style>
+    .opinions_table{
+        margin-left:100px;
+        margin-right:150px;
+        margin-top: 50px;
+    }
+    </style>
+    <div class="opinions_table">
+    <table border="5px">
+            <tr>
+                <th >ID_ACHIEVEMENT </th>
+                <th >NAME </th>
+                <th >APPID_GAME </th>
+                <th >ACHIEVED </th>
+
+            </tr>
+    {% for i in list %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td width="10%">{{ i.name }}</td>
+                <td width="15%">{{ i.appid_game }}</td>
+                <td width="15%">{{ i.achieved }}</td>
+                <td><br><a href="{% url 'change_achievement' id_achievement=i.id %}">Edit your achievement!</a> <br/></td>
+                <td><br><a href="{% url 'delete_achievement' id_achievement=i.id %}">Delete your achievement!</a> <br/></td>
+            </tr>
+    {% endfor %}
+
+        </table>
+    </div>
+{% endblock %}
