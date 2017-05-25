@@ -17,6 +17,7 @@ class UserProfile(models.Model):
     #avatar=models.CharField(max_length=50, blank=True, null=True)
     friends=models.TextField(null=True, blank=True) #Para poder poner amigos que no esten registrados a nuestra app
 
+
     def __unicode__(self):
         return str(self.user.username)
 

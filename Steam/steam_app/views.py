@@ -288,7 +288,7 @@ class APIUserProfileList(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 class APIUserProfileDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsOwnerOrReadOnly)
+    #permission_classes = (IsOwnerOrReadOnly)
     model = UserProfile
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer

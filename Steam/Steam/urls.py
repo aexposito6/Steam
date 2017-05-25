@@ -50,5 +50,5 @@ urlpatterns = (
     url(r'^change/achievement/done/$', views.after_change_achievement, name='after_change_achievement'),
     url(r'^logout/$', logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include('steam_app.urls',namespace='user-detail')),
+    url(r'^api/', include('steam_app.urls')),
 )
