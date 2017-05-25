@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, generics
 
 import forms
-from serializers import UserProfileSerializer
+from serializers import UserProfileSerializer, GameSerializer, AchievementSerializer, ClanSerializer
 from forms import UserForm, GameForm, ClanForm, AchievementForm
 from models import UserProfile, Game, Clan, Achievement
 
@@ -271,6 +271,9 @@ def delete_user(request, id_user):
     user.delete()
     return render(request, "delete_user.html", {})
 
+def api_page(request):
+    context = RequestContext(request)
+    return render_to_response("api.html", {}, context)
 
 class IsOwnerOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
     def has_object_permission(self, request, view, obj):
@@ -288,9 +291,51 @@ class APIUserProfileList(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 class APIUserProfileDetail(generics.RetrieveUpdateDestroyAPIView):
-    #permission_classes = (IsOwnerOrReadOnly)
+    #permission_classes = permissions.IsAuthenticatedOrReadOnly
     model = UserProfile
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
 
+class APIGameList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    model = Game
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class APIGameDetail(generics.RetrieveUpdateDestroyAPIView):
+    #permission_classes = permissions.IsAuthenticatedOrReadOnly
+    model = Game
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+class APIAchievementList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    model = Achievement
+    queryset = Achievement.objects.all()
+    serializer_class = AchievementSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class APIAchievementDetail(generics.RetrieveUpdateDestroyAPIView):
+    #permission_classes = permissions.IsAuthenticatedOrReadOnly
+    model = Achievement
+    queryset = Achievement.objects.all()
+    serializer_class = AchievementSerializer
+class APIClanList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    model = Clan
+    queryset = Clan.objects.all()
+    serializer_class = ClanSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class APIClanDetail(generics.RetrieveUpdateDestroyAPIView):
+    #permission_classes = permissions.IsAuthenticatedOrReadOnly
+    model = Clan
+    queryset = Clan.objects.all()
+    serializer_class = ClanSerializer
 
