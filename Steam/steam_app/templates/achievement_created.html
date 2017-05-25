@@ -1,15 +1,16 @@
-<!DOCTYPE html>
+<html>
 <meta charset="UTF-8">
 {% load staticfiles %}
 <html lang="en"> <head>
 <link rel="stylesheet" href="{% static "style/base.css" %}" />
-<title>{% block title %}Thanks to create a clan!{% endblock %}</title> </head>
-<body>
+<title>{% block title %}Thanks to create an achievement!{% endblock %}</title> </head>
+<body style="background:#cef9f9">
 <div id="header">
-<Strong>Thanks to create an achievement!</Strong>
+    <h1 ALIGN=center><Strong ALIGN=center>Thanks to create an achievement!</Strong></h1>
 <div id="sidebar">
-{% block sidebar %}<ul><li><a href="/logout/">Logout</a></li></ul>{% endblock %} </div>
+{% block sidebar %} <h1 ALIGN=center><br ><a href="/accounts/profile">Return homepage</a> <br/></h1>{% endblock %} </div>
 {% block content %}
 {% endblock %}
-<div id="footer">{% block footer %}{% endblock %}</div> </body>
+<div id="footer">{% block footer %}{% endblock %}</div>
+</body>
 </html>

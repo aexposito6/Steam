@@ -3,14 +3,14 @@
 {% block content %}
 
 <div class="text-center">
-    <h1><strong>Create an achievement!</strong></h1>
+    <h1 ALIGN=center><strong>Edit an achievement!</strong></h1>
 </div>
     <form method="post"  enctype="multipart/form-data">
         {% csrf_token %}
-        <table>
+        <table ALIGN=center>
         {{ AchievementForm.as_table }}
         </table>
-        <input type="submit" name="submit" value="Enviar"/>
+        <h1 ALIGN=center><input type="submit" name="submit" value="Enviar"/></h1>
 
 
     </form>

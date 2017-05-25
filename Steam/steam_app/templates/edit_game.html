@@ -3,14 +3,14 @@
 {% block content %}
 
 <div class="text-center">
-    <h1><strong>Create a game!</strong></h1>
+    <h1 ALIGN=center><strong>Edit a game!</strong></h1>
 </div>
     <form method="post"  enctype="multipart/form-data">
         {% csrf_token %}
-        <table>
+        <table ALIGN=center>
         {{ GameForm.as_table }}
         </table>
-        <input type="submit" name="submit" value="Enviar"/>
+        <h1 ALIGN=center> <input type="submit" name="submit" value="Guardar"/></form></h1>
 
 
     </form>

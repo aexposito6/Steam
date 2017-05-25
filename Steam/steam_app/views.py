@@ -5,7 +5,10 @@ from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import permissions, generics
+
 import forms
+from serializers import UserProfileSerializer
 from forms import UserForm, GameForm, ClanForm, AchievementForm
 from models import UserProfile, Game, Clan, Achievement
 
@@ -267,5 +270,27 @@ def delete_user(request, id_user):
     user = UserProfile.objects.get(pk=id_user)
     user.delete()
     return render(request, "delete_user.html", {})
+
+
+class IsOwnerOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.UserProfile.user == request.user
+
+class APIUserProfileList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    model = UserProfile
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class APIUserProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsOwnerOrReadOnly)
+    model = UserProfile
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
 
 

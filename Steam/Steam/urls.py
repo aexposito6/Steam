@@ -20,7 +20,7 @@ from steam_app import views
 from django.conf.urls import url, include
 
 urlpatterns = (
-    url(r'^$', views.mainpage, name='mainpage'),
+    url(r'^$', login, name='login'),
     url(r'^register/$', views.register, name='register'),
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/profile/$', views.mainpage, name='mainpage'),
@@ -50,5 +50,5 @@ urlpatterns = (
     url(r'^change/achievement/done/$', views.after_change_achievement, name='after_change_achievement'),
     url(r'^logout/$', logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^admin/', admin.site.urls),
-
+    url(r'^api/', include('steam_app.urls',namespace='user-detail')),
 )

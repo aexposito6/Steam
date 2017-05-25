@@ -6,8 +6,8 @@ from django.urls import reverse
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User)
-    steam_id = models.IntegerField( unique=True,default=False)
+    user = models.OneToOneField(User, unique=True)
+    steam_id = models.IntegerField(unique=True,default=False)
     nickname = models.CharField(max_length=50, default='' , unique=True)
     real_name=models.CharField(max_length=50,blank=True, null=True)
     city = models.CharField(max_length=50, default='')
@@ -53,3 +53,4 @@ class Clan(models.Model):
         return reverse('change_clan', kwargs={'id_clan': self.id})
     def __unicode__(self):
         return str("Clan:" + self.name + "," + str(self.id))
+
