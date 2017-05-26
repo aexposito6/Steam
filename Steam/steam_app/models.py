@@ -16,7 +16,8 @@ class UserProfile(models.Model):
     url_profile=models.CharField(max_length=50, blank=True, null=True)
     #avatar=models.CharField(max_length=50, blank=True, null=True)
     friends=models.TextField(null=True, blank=True) #Para poder poner amigos que no esten registrados a nuestra app
-
+    def get_absolute_url(self):
+        return reverse('change_name', kwargs={'id_game': self.id})
 
     def __unicode__(self):
         return str(self.user.username)
@@ -31,10 +32,10 @@ class Game (models.Model):
     def get_absolute_url(self):
         return reverse('change_name', kwargs={'id_game': self.id})
     def __unicode__(self):
-        return str( "Juego: " + str(self.name) + "," + str(self.id))
+        return str( "Juego: " + str(self.name))
 
 class Achievement(models.Model):
-    #user = models.ForeignKey(UserProfile)
+
     user = models.ForeignKey(User)
     appid_game = models.ForeignKey(Game, default=False)
     name = models.CharField(max_length=50, default='')
@@ -53,5 +54,5 @@ class Clan(models.Model):
     def get_absolute_url(self):
         return reverse('change_clan', kwargs={'id_clan': self.id})
     def __unicode__(self):
-        return str("Clan:" + self.name + "," + str(self.id))
+        return str("Clan:" + self.name )
 

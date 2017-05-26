@@ -44,6 +44,7 @@ def register(request):
         'registration/register.html',
         {'user_form': user_form, 'registered': registered},
         context)
+@login_required
 def mainpage(request):
 
     context = RequestContext(request)
@@ -69,6 +70,7 @@ def games(request):
         GameForm=forms.GameForm()
 
     return render(request,"game.html", {'GameForm':GameForm})
+@login_required
 def print_games(request):
     l = []
     u = User.objects.get(username__exact=request.user)
@@ -92,14 +94,16 @@ def change_game(request, id_game):
         GameForm = forms.GameForm(instance=game)
 
     return render(request, "edit_game.html", {'GameForm': GameForm})
+@login_required
 def delete_game(request, id_game):
     game = Game.objects.get(pk=id_game)
     game.delete()
     return render(request, "delete_game.html", {})
+@login_required
 def after_change_game(request):
     context = RequestContext(request)
     return render_to_response("update_game.html", {}, context)
-
+@login_required
 def after_game(request):
     context = RequestContext(request)
     return render_to_response("game_created.html", {}, context)
@@ -127,7 +131,7 @@ def clan(request):
 def after_clan(request):
     context = RequestContext(request)
     return render_to_response("clan_created.html", {}, context)
-
+@login_required
 def print_clan(request):
     l = []
     u = User.objects.get(username__exact=request.user)
@@ -167,27 +171,28 @@ def after_change_clan(request):
 @csrf_exempt
 @login_required
 def achievement(request):
+    achi = AchievementForm(data=request.POST)
+    achi.fields['appid_game'].queryset = Game.objects.filter(user=request.user)
     if request.method=="POST":
-        achievement=forms.AchievementForm(data=request.POST)
-        if achievement.is_valid():
-            achievement = Achievement(user=request.user,name= achievement.cleaned_data['name'],
-                             appid_game=achievement.cleaned_data['appid_game'],
-                            achieved=achievement.cleaned_data['achieved']
+        if achi.is_valid():
+            achievement = Achievement(user=request.user,name= achi.cleaned_data['name'],
+                             appid_game=(achi.cleaned_data['appid_game']),
+                            achieved=achi.cleaned_data['achieved']
                              )
             achievement.save()
             return HttpResponseRedirect('/achievement/sent')
         else:
-            print(achievement.errors)
+            print(achi.errors)
     else:
-        achievement=forms.AchievementForm()
+        achievement=achi
 
-    return render(request,"Achievements.html", {'AchievementForm':AchievementForm})
+    return render(request,"Achievements.html", {'AchievementForm':achievement})
 @csrf_exempt
 @login_required
 def after_achievement(request):
     context = RequestContext(request)
     return render_to_response("achievement_created.html", {}, context)
-
+@login_required
 def print_achievement(request):
     l = []
     u = User.objects.get(username__exact=request.user)
@@ -222,6 +227,7 @@ def delete_achievement(request, id_achievement):
 def after_change_achievement(request):
     context = RequestContext(request)
     return render_to_response("update_achievement.html", {}, context)
+@login_required
 def user(request):
     if request.method=="POST":
         UserForm=forms.UserProfileForm(data=request.POST)
@@ -237,11 +243,11 @@ def user(request):
         UserForm=forms.UserProfileForm()
 
     return render(request,"user.html", {'UserForm':UserForm})
-
+@login_required
 def after_user(request):
     context = RequestContext(request)
     return render_to_response("user_created.html", {}, context)
-
+@login_required
 def print_users(request):
     l = []
     u = User.objects.get(username__exact=request.user)
@@ -249,6 +255,7 @@ def print_users(request):
         if i.user == u:
             l.append(i)
     return render(request, "list_user.html", {'list': l})
+@login_required
 def change_user(request, id_user):
     user = get_object_or_404(UserProfile, pk=id_user)
     if request.method == "POST":
@@ -258,19 +265,20 @@ def change_user(request, id_user):
             return HttpResponseRedirect('/change/user/done')
         else:
             user = UserProfile.objects.get(pk=id_user)
-            UserProfileForm = forms.GameForm(instance=user)
+            UserProfileForm = forms.UserProfileForm(instance=user)
     else:
         UserProfileForm = forms.UserProfileForm(instance=user)
     return render(request, "edit_user.html", {'UserProfileForm': UserProfileForm})
+@login_required
 def after_change_user(request):
     context = RequestContext(request)
     return render_to_response("update_user.html", {}, context)
-
+@login_required
 def delete_user(request, id_user):
     user = UserProfile.objects.get(pk=id_user)
     user.delete()
     return render(request, "delete_user.html", {})
-
+@login_required
 def api_page(request):
     context = RequestContext(request)
     return render_to_response("api.html", {}, context)

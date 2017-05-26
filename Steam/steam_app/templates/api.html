@@ -1,17 +1,19 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<body style="background:#cef9f9">
 
 <div id="content">
     <h2 ALIGN=center>
+       <br> <h1 ALIGN=center><strong>API RESTFUL</strong><br/>
     <br><a href="/api/userprofile">API User profile</a> <br/>
     <br><a href="/api/game">API Game</a> <br/>
         <br><a href="/api/achievement">API Achievements</a> <br/>
         <br><a href="/api/clan">API Clan</a> <br/>
-
+</h1>
 
     </h2>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 </div>
 
-{% endblock %}
+</body>
+</html>
