@@ -25,15 +25,20 @@
             </tr>
     {% for i in list %}
             <tr>
+                <section vocab ="http://schema.org/" typeof = "Person">
+                    <div property="identifier" typeof="PropertyValue">
+                        <div property="value" typeof="Number">
+                            <td width="10%"><span property="Integer"> {{ i.steam_id }}</span></td>
+                        </div>
+                    </div>
 
-                <td width="10%">{{ i.steam_id }}</td>
-                <td width="15%">{{ i.nickname }}</td>
-                <td width="15%">{{ i.real_name }}</td>
-                <td width="15%">{{ i.city }}</td>
-                <td width="15%">{{ i.stateOrProvince }}</td>
-                <td width="15%">{{ i.country }}</td>
-                 <td width="50%">{{ i.url_profile }}</td>
-                 <td width="60%">{{ i.friends }}</td>
+                    <td width="15%"><span property="alternateName"> {{ i.nickname }}</span></td>
+                    <td width="15%"><span property="name">{{ i.real_name }}</span></td>
+                    <td width="15%">{{ i.city }}</td>
+                    <td width="15%">{{ i.stateOrProvince }}</td>
+                    <td width="15%"><span property="nationality">{{ i.country }}</span></td>
+                    <td width="50%"><span property="url">{{ i.url_profile }}</span></td>
+                    <td width="60%">{{ i.friends }}</td>
                 <td><br><a href="{% url 'change_user' id_user=i.id %}">Edit your User profile!</a> <br/></td>
                 <td><br><a href="{% url 'delete_user' id_user=i.id %}">Delete your user Profile!</a> <br/></td>
             </tr>

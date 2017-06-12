@@ -22,11 +22,13 @@
             </tr>
     {% for i in list %}
             <tr>
-                <td>{{ i.appid }}</td>
-                <td width="10%">{{ i.name }}</td>
-                <td width="15%">{{ i.version }}</td>
-                <td width="15%">{{ i.company }}</td>
-                <td width="70%">{{ i.opinion }}</td>
+                <section vocab ="http://schema.org/" typeof = "VideoGame">
+                    <td><span property="identifier">{{ i.appid }}</span></td>
+                    <td width="10%"><span property="name">{{ i.name }}</span> </td>
+                    <td width="15%"><span property="version">{{ i.version }}</span></td>
+                    <td width="15%"><span property="publisher">{{ i.company }}</span></td>
+                    <td width="70%"><span property="creator">{{ i.opinion }}</span></td>
+                </section>
                 <td><br><a href="{% url 'change_game' id_game=i.id %}">Edit your game!</a> <br/></td>
                 <td><br><a href="{% url 'delete_game' id_game=i.id %}">Delete your game!</a> <br/></td>
             </tr>

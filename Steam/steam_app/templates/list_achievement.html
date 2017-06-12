@@ -22,10 +22,14 @@
             </tr>
     {% for i in list %}
             <tr>
-                <td>{{ i.id }}</td>
-                <td width="10%">{{ i.name }}</td>
-                <td width="15%">{{ i.appid_game }}</td>
-                <td width="15%">{{ i.achieved }}</td>
+                <section vocab ="http://schema.org/" typeof = "AchieveAction">
+                    <td><span property="identifier">{{ i.id }}</span> </td>
+                    <td width="10%"><span property="name">{{ i.name }}</span></td>
+                </section>
+                    <p rel="game" typeof="Game">
+                        <td width="15%"><span property="identifier">{{ i.appid_game }}</span></td>
+                        <td width="15%">{{ i.achieved }}</td>
+                    </p>
                 <td><br><a href="{% url 'change_achievement' id_achievement=i.id %}">Edit your achievement!</a> <br/></td>
                 <td><br><a href="{% url 'delete_achievement' id_achievement=i.id %}">Delete your achievement!</a> <br/></td>
             </tr>

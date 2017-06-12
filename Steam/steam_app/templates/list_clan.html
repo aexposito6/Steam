@@ -25,12 +25,13 @@
 
     {% for i in list %}
             <tr>
-                <td>{{ i.id }}</td>
-                <td width="10%">{{ i.name }}</td>
-                <td width="15%">{{ i.number_of_person }}</td>
-                <td width="15%">{{ i.members }}</td>
-                <td><br><a href="{% url 'change_clan' id_clan=i.id %}">Edit your clan!</a> <br/></td>
-                <td><br><a href="{% url 'delete_clan' id_clan=i.id %}">Delete your clan!</a> <br/></td>
+                <section vocab ="http://schema.org/" typeof = "Organization">
+                    <td><span property="identifier">{{ i.id }}</span> </td>
+                    <td width="10%"><span property="name">{{ i.name }}</span></td>
+                    <td width="15%"><span property="numberofEmployees">{{ i.number_of_person }}</span> </td>
+                    <td width="15%"><span property="employees">{{ i.members }}</span> </td>
+                    <td><br><a href="{% url 'change_clan' id_clan=i.id %}">Edit your clan!</a> <br/></td>
+                    <td><br><a href="{% url 'delete_clan' id_clan=i.id %}">Delete your clan!</a> <br/></td>
             </tr>
     {% endfor %}
 
