@@ -1,5 +1,5 @@
-{%extends "base.html" %}
-{% block content %}
+{%{extends "base.html" %}
+{% {block content %}
 <div P ALIGN="center">
     <h1>List of games</h1>
 </div>
@@ -26,11 +26,8 @@
     {% for i in list %}
             <tr>
                 <section vocab ="http://schema.org/" typeof = "Person">
-                    <div property="identifier" typeof="PropertyValue">
-                        <div property="value" typeof="Number">
-                            <td width="10%"><span property="Integer"> {{ i.steam_id }}</span></td>
-                        </div>
-                    </div>
+
+                    <td width="10%"><span property="Identifier"> {{ i.steam_id }}</span></td>
 
                     <td width="15%"><span property="alternateName"> {{ i.nickname }}</span></td>
                     <td width="15%"><span property="name">{{ i.real_name }}</span></td>
@@ -46,4 +43,4 @@
 
         </table>
     </div>
-{% endblock %}
+{% {endblock %}
